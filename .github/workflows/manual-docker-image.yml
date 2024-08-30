@@ -33,11 +33,11 @@ jobs: # job name
           username: ${{ env.DOCKER_USER }}
           password: ${{ env.DOCKER_PASSWORD }}
       - name: Build the Docker image # push The image to the docker hub
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6
         with:
           context: ./docker-borg-backup
-          build-args:
-            - BORG_VERSION: ${{ env.BORG_VERSION }}
+          build-args: |
+            BORG_VERSION: ${{ env.BORG_VERSION }}
           tags: ${{ env.REPO_NAME }}:latest
           platforms: linux/armv7
           push: true
