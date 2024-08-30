@@ -19,6 +19,9 @@ jobs: # job name
         with:
           repository: tgbyte/docker-borg-backup
           path: ./docker-borg-backup
+      - name: set correct base image
+        run: |
+          sed -i 's/tgbyte\///' ./docker-borg-backup/Dockerfile
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
