@@ -42,5 +42,5 @@ jobs: # job name
           build-args: |
             BORG_VERSION: ${{ env.BORG_VERSION }}
           tags: ${{ env.REPO_NAME }}:latest
-          platforms: linux/armv7
+          platforms: linux/arm/v7
           push: true
