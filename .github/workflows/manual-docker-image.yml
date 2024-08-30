@@ -4,6 +4,7 @@ env:
   DOCKER_USER: ${{ vars.DOCKERHUB_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
   REPO_NAME: ${{ vars.REPO_NAME }}
+  BORG_VERSION: ${{ vars.BORG_VERSION }}
 
 on: workflow_dispatch
 
@@ -36,7 +37,7 @@ jobs: # job name
         with:
           context: ./docker-borg-backup
           build-args:
-            BORG_VERSION: 1.4.0
+            - BORG_VERSION: ${{ env.BORG_VERSION }}
           tags: ${{ env.REPO_NAME }}:latest
           platforms: linux/armv7
           push: true
