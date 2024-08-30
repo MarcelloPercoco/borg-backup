@@ -41,6 +41,6 @@ jobs: # job name
           context: ./docker-borg-backup
           build-args: |
             BORG_VERSION: ${{ env.BORG_VERSION }}
-          tags: ${{ env.REPO_NAME }}:latest
+          tags: ${{ env.REPO_NAME }}:latest,${{ env.REPO_NAME }}:${{ env.BORG_VERSION }}
           platforms: linux/arm/v7
           push: true
