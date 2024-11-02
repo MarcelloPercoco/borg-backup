@@ -36,7 +36,7 @@ jobs: # job name
       - name: Build the Docker image # push The image to the docker hub
         uses: docker/build-push-action@v6
         with:
-          context: ./docker-borg-backup
+          context: .
           tags: ${{ env.REPO_NAME }}:latest,${{ env.REPO_NAME }}:${{ env.BORG_VERSION }}
           platforms: linux/x86_64,linux/arm64,linux/arm/v7
           push: true
