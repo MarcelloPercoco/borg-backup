@@ -14,17 +14,22 @@ jobs: # job name
     steps:
       - name: Check out my repo
         uses: actions/checkout@v4
-      - name: take keepalived version
+      - name: Check out other public repo
+        uses: actions/checkout@v4
+        with:
+          repository: tgbyte/docker-borg-backup
+          path: ./docker-borg-backup
+      - name: set correct base image
         run: |
-          echo "BORG_VERSION=$(curl -s https://archlinux.org/packages/extra/x86_64/borg/ | grep softwareVersion | cut -d '"' -f 4)" >> $GITHUB_ENV
+          sed -i 's/tgbyte\///' ./docker-borg-backup/Dockerfile
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: 'linux/x86_64,linux/arm64,linux/arm/v7'
+          platforms: 'arm/v7'
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
-          platforms: 'linux/x86_64,linux/arm64,linux/arm/v7'
+          platforms: 'arm/v7'
       - name: docker login
         uses: docker/login-action@v3
         with:
@@ -33,7 +38,9 @@ jobs: # job name
       - name: Build the Docker image # push The image to the docker hub
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./docker-borg-backup
+          build-args: |
+            BORG_VERSION: ${{ env.BORG_VERSION }}
           tags: ${{ env.REPO_NAME }}:latest,${{ env.REPO_NAME }}:${{ env.BORG_VERSION }}
-          platforms: linux/x86_64,linux/arm64,linux/arm/v7
+          platforms: linux/arm/v7
           push: true
