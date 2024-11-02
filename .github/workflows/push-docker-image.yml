@@ -1,4 +1,4 @@
-name: Manual-build  # When pushing to any branch then run this action
+name: Push-to-build  # When pushing to any branch then run this action
 # Env variable
 env:
   DOCKER_USER: ${{ vars.DOCKERHUB_USERNAME }}
@@ -6,7 +6,10 @@ env:
   REPO_NAME: ${{ vars.REPO_NAME }}
   BORG_VERSION: ${{ vars.BORG_VERSION }}
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+    - 'master'
 
 jobs: # job name 
   build-deploy: 
