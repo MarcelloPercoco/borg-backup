@@ -2,11 +2,14 @@ FROM alpine:3.20
 
 ARG BORG_VERSION=1.4.0
 
+ENV TZ=Europe/Rome
+
 RUN set -x \
 	&& apk update \
 	&& apk upgrade --no-cache \ 
 	&& apk add --no-cache python3 py3-pip openssh-server bash shadow \
 	&& apk add --no-cache \
+	tzdata \
 	pkgconf \
 	gcc \
 	openssl-dev \
