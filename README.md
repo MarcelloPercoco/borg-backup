@@ -10,7 +10,7 @@ Heavily based on tgbyte/borg-backup, 2 main differences:
 ## Usage
 
 ```
-docker run -e BORG_AUTHORIZED_KEYS=<ssh_authorized_key> -e BORG_UID=<uid> -e BORG_GID=<gid> -v <borg_volume>:/var/backups/borg tgbyte/borg-backup
+docker run -e BORG_AUTHORIZED_KEYS=<ssh_authorized_key> -e BORG_UID=<uid> -e BORG_GID=<gid> -e TZ=Europe/Rome -v <borg_volume>:/var/backups/borg cobra1978/borg-backup
 ```
 
 Alternatively, use the Docker orchestrator of your choice.
