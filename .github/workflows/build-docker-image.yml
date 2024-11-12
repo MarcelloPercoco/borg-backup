@@ -1,11 +1,15 @@
 name: Build-Action  # When pushing to any branch then run this action
 # Env variable
+env:
+  DESCRIPTION: "Borg image to use as borg backup repository via ssh"
 
 on:
   workflow_dispatch:
   push:
     branches:
     - 'main'
+  schedule:
+    - cron: "0 0 * * 0"
 
 jobs: # job name 
   build-deploy: 
@@ -48,4 +52,4 @@ jobs: # job name
           outputs: |
             type=image
             name=target
-            annotation-index.org.opencontainers.image.description=${{ vars.DESCRIPTION }}
+            annotation-index.org.opencontainers.image.description=${{ env.DESCRIPTION }}
