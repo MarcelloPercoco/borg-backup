@@ -12,8 +12,13 @@ on:
     - cron: "0 0 * * 0"
 
 jobs: # job name 
-  build-deploy: 
-    runs-on: ubuntu-latest  # runner name : (ubuntu latest version)     
+  build-deploy:
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    runs-on: ubuntu-latest  # runner name : (ubuntu latest version)    
     steps:
       - name: Check out my repo
         uses: actions/checkout@v4
