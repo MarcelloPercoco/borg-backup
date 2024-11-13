@@ -1,10 +1,8 @@
-FROM alpine:3.20
+ARG ALPINE_VERSION=3.20
+
+FROM alpine:${ALPINE_VERSION}
 
 ARG BORG_VERSION=1.4.0
-
-LABEL MAINTAINER="Marcello Percoco <114474556+MarcelloPercoco@users.noreply.github.com>"
-LABEL org.opencontainers.image.source=https://github.com/MarcelloPercoco/borg-backup
-LABEL org.opencontainers.image.description="${DESCRIPTION}"
 
 ENV TZ=Europe/Rome
 

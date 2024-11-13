@@ -62,6 +62,10 @@ jobs: # job name
             linux/arm/v7
             linux/arm64
             linux/amd64
+          labels: |
+            MAINTAINER="Marcello Percoco <114474556+MarcelloPercoco@users.noreply.github.com>"
+            org.opencontainers.image.source=https://github.com/MarcelloPercoco/borg-backup
+            org.opencontainers.image.description=${{ env.DESCRIPTION }}
           push: true
           sbom: true
           provenance: mode=max
