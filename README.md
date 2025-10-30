@@ -4,7 +4,7 @@
 A dockerized Borg Backup server. For more information about Borg Backup, an excellent de-duplicating backup, refer to: https://www.borgbackup.org/
 
 Heavily based on tgbyte/borg-backup, 2 main differences:
-* based on apline linux isntead of ubuntu
+* based on apline linux instead of ubuntu
 * available even for arm/v7 arch
 
 ## Usage
