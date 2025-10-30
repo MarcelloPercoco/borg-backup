@@ -27,7 +27,6 @@ RUN set -x \
 	lz4-libs \
 	zstd-libs \
 	libxxhash \
-	libacl \
 	libstdc++ \ 
 	&& pip3 install --break-system-packages -v "borgbackup==${BORG_VERSION}" \
 	&& apk del \
