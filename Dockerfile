@@ -1,8 +1,8 @@
-ARG ALPINE_VERSION=3.22
+ARG ALPINE_VERSION=3.20
 
 FROM alpine:${ALPINE_VERSION}
 
-ARG BORG_VERSION=1.4.1
+ARG BORG_VERSION=1.4.0
 
 ENV TZ=Europe/Rome
 
@@ -45,7 +45,7 @@ RUN set -x \
 	&& usermod -p '*' borg \
 	&& rm -f /etc/ssh/ssh_host_* \
 	&& mkdir -p /var/run/sshd /var/backups/borg /var/lib/docker-borg/ssh mkdir /home/borg/.ssh \
-	&& chown borg.borg /var/backups/borg /home/borg/.ssh \
+	&& chown borg:borg /var/backups/borg /home/borg/.ssh \
 	&& chmod 700 /home/borg/.ssh \
 	&& rm -rf /root/.cache/pip \
 	&& sed -i \

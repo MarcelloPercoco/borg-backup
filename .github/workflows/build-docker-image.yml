@@ -51,8 +51,8 @@ jobs: # job name
         with:
           context: .
           build-args: |
-            BORG_VERSION: ${{ env.BORG_VERSION }}
-            ALPINE_VERSION: ${{ env.ALPINE_VERSION }}
+            BORG_VERSION=${{ env.BORG_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           tags: |
             ${{ vars.REPO_NAME }}:latest
             ${{ vars.REPO_NAME }}:${{ env.BORG_VERSION }}
