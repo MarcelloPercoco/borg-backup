@@ -53,8 +53,8 @@ jobs: # job name
             ALPINE_VERSION=${{ vars.ALPINE_VERSION }}
           tags: |
             ${{ vars.REPO_NAME }}:latest
-            ${{ vars.REPO_NAME }}:${{ env.BORG_VERSION }}
-            ghcr.io/${{ env.IMAGE_NAME }}:${{ env.BORG_VERSION }}
+            ${{ vars.REPO_NAME }}:${{ vars.BORG_VERSION }}
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ vars.BORG_VERSION }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
           platforms: |
             linux/arm/v7
