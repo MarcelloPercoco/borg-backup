@@ -28,6 +28,7 @@ RUN set -x \
 	zstd-libs \
 	libxxhash \
 	libstdc++ \ 
+	acl \
 	&& pip3 install --break-system-packages -v "borgbackup==${BORG_VERSION}" \
 	&& apk del \
 	pkgconf \
