@@ -2,8 +2,6 @@ name: Build-Action  # When pushing to any branch then run this action
 # Env variable
 env:
   DESCRIPTION: "Borg image to use as borg backup repository via ssh"
-  BORG_VERSION: "${{ vars.BORG_VERSION }}"
-  ALPINE_VERSION: "${{ vars.ALPINE_VERSION }}"
 
 on:
   workflow_dispatch:
@@ -51,8 +49,8 @@ jobs: # job name
         with:
           context: .
           build-args: |
-            BORG_VERSION=${{ env.BORG_VERSION }}
-            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
+            BORG_VERSION=${{ vars.BORG_VERSION }}
+            ALPINE_VERSION=${{ vars.ALPINE_VERSION }}
           tags: |
             ${{ vars.REPO_NAME }}:latest
             ${{ vars.REPO_NAME }}:${{ env.BORG_VERSION }}
