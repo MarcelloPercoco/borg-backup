@@ -28,7 +28,8 @@ ENV TZ=Europe/Rome
 ENV PATH="/opt/borg-env/bin:$PATH"
 
 # Install only necessary runtime libraries and services
-RUN apk add --no-cache \
+RUN apk upgrade --no-cache && \
+    apk add --no-cache \
     python3 \
     bash shadow openssh-server \
     tzdata openssl lz4-libs zstd-libs libxxhash acl
