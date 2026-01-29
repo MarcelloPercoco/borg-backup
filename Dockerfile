@@ -5,7 +5,8 @@ FROM alpine:${ALPINE_VERSION} AS builder
 ARG BORG_VERSION=1.4.2
 
 # Install build dependencies
-RUN apk add --no-cache \
+RUN apk upgrade --no-cache && \
+    apk add --no-cache \
     python3 python3-dev py3-pip \
     gcc musl-dev linux-headers openssl-dev \
     lz4-dev zstd-dev xxhash-dev acl-dev pkgconf
