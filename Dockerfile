@@ -1,8 +1,8 @@
-ARG ALPINE_VERSION
+ARG ALPINE_VERSION=3.23
 FROM alpine:${ALPINE_VERSION} AS builder
 
 # Set Borg version at build time
-ARG BORG_VERSION
+ARG BORG_VERSION=1.4.4
 
 # Install build dependencies
 RUN apk upgrade --no-cache && \
