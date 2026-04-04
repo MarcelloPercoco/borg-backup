@@ -67,8 +67,8 @@ jobs: # job name
             org.opencontainers.image.source=https://github.com/MarcelloPercoco/borg-backup
             org.opencontainers.image.description=${{ env.DESCRIPTION }}
           push: true
-          sbom: true
-          provenance: mode=max
+          sbom: false
+          provenance: false
           outputs: |
             type=image
             name=target
