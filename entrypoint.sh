@@ -27,11 +27,17 @@ if [ -n "${BORG_GID}" ]; then
     usermod -g "${BORG_GID}" borg
 fi
 
-# Inject authorized_keys from environment usando printf (compatibile POSIX 'sh')
 if [ -n "${BORG_AUTHORIZED_KEYS+x}" ]; then
-    printf '%b\n' "${BORG_AUTHORIZED_KEYS}" > /home/borg/.ssh/authorized_keys
-    chown borg:borg /home/borg/.ssh/authorized_keys
-    chmod og-rwx /home/borg/.ssh/authorized_keys
+    # Assicuriamoci che la directory esista e abbia i permessi giusti
+    mkdir -p /home/borg/.ssh
+    chmod 700 /home/borg/.ssh
+    
+    # Scrittura letterale della chiave
+    printf '%s\n' "${BORG_AUTHORIZED_KEYS}" > /home/borg/.ssh/authorized_keys
+    
+    # Fix permessi e ownership
+    chown -R borg:borg /home/borg/.ssh
+    chmod 600 /home/borg/.ssh/authorized_keys
 fi
 
 # (Il chown inutilmente lento su /opt/borg-env è stato opportunamente rimosso)
