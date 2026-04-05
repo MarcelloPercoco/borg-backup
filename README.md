@@ -30,28 +30,36 @@ docker run -d \
 ```
 
 ## Docker Compose (Recommended for Portainer/GitOps)
-This method is ideal for GitOps workflows where keys are injected via environment variables.
+
+This image supports two ways to inject authorized SSH keys:
+1. **Environment Variable**: Quickest for simple setups.
+2. **Docker Config (Template)**: More secure and robust for GitOps/Portainer stacks. The entrypoint will automatically copy the keys from the template to the user's home directory during boot, ensuring correct ownership even if UIDs are changed.
 
 ```yaml
 services:
   borg-server:
-    image: cobra1978/borg-backup:latest
+    image: ghcr.io/marcellopercoco/borg-backup:latest
     container_name: borg-server
     environment:
-      # Paste the full public key(s) here. For multiple keys, use a newline separated string if supported, 
-      # or manage via an external env file.
-      - BORG_AUTHORIZED_KEYS=${BORG_AUTHORIZED_KEYS}
       - BORG_UID=1000
       - BORG_GID=1000
       - TZ=Europe/Rome
+      # OPTION 1: Env Var
+      - BORG_AUTHORIZED_KEYS=ssh-rsa AAAAB3Nza...
+    configs:
+      # OPTION 2: Docker Config (Template)
+      - source: authorized_keys
+        target: /etc/ssh/authorized_keys.template
     volumes:
-      # DATA VOLUME: Where backups are actually stored
       - borg_data:/var/backups/borg
-      # CONFIG VOLUME: Persists SSH Host Keys (prevents "Host verification failed" on clients)
       - borg_ssh:/var/lib/docker-borg
     ports:
       - "2222:22"
     restart: unless-stopped
+
+configs:
+  authorized_keys:
+    external: true
 
 volumes:
   borg_data:
@@ -62,10 +70,18 @@ volumes:
 
 | Variable | Description |
 | :--- | :--- |
-| `BORG_AUTHORIZED_KEYS` | The public SSH key(s) allowed to connect. This populates `/home/borg/.ssh/authorized_keys`. |
-| `BORG_UID` | The User ID for the `borg` user. Set this to match the owner of the mounted volume on the host to avoid permission issues. |
+| `BORG_AUTHORIZED_KEYS` | (Optional) The public SSH key(s) allowed to connect. |
+| `BORG_UID` | The User ID for the `borg` user. The script dynamically adjusts the user ID at boot to match this value. |
 | `BORG_GID` | The Group ID for the `borg` user. |
 | `TZ` | Sets the container timezone (e.g., `Europe/Rome`). |
+
+### 🔑 SSH Key Injection Methods
+
+The container searches for keys in the following order:
+1. **Environment Variable**: If `BORG_AUTHORIZED_KEYS` is set, it is written to `/home/borg/.ssh/authorized_keys`.
+2. **Config Template**: If a file exists at `/etc/ssh/authorized_keys.template`, its content is **appended** to the authorized keys.
+
+This "Template Copy" approach allows the container to support **Dynamic UIDs** correctly, as the files in the home directory are managed by the container's entrypoint script rather than being direct read-only mounts.
 
 SSH Host Keys: To persist the container's SSH server identity (host keys) across updates, mount a volume to /var/lib/docker-borg. If you skip this, clients will see a "Remote Host Identification Has Changed" warning after every container recreate.
 
