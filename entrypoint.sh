@@ -27,18 +27,26 @@ if [ -n "${BORG_GID}" ]; then
     usermod -g "${BORG_GID}" borg
 fi
 
+# Handle authorized_keys (from environment variable or config template)
+mkdir -p /home/borg/.ssh
+chmod 700 /home/borg/.ssh
+
+# Start with an empty or existing file
+: > /home/borg/.ssh/authorized_keys
+
+# 1. Use the environment variable if present (takes priority)
 if [ -n "${BORG_AUTHORIZED_KEYS+x}" ]; then
-    # Assicuriamoci che la directory esista e abbia i permessi giusti
-    mkdir -p /home/borg/.ssh
-    chmod 700 /home/borg/.ssh
-    
-    # Scrittura letterale della chiave
-    printf '%s\n' "${BORG_AUTHORIZED_KEYS}" > /home/borg/.ssh/authorized_keys
-    
-    # Fix permessi e ownership
-    chown -R borg:borg /home/borg/.ssh
-    chmod 600 /home/borg/.ssh/authorized_keys
+    printf '%s\n' "${BORG_AUTHORIZED_KEYS}" >> /home/borg/.ssh/authorized_keys
 fi
+
+# 2. Append from the config template if it was mounted
+if [ -f /etc/ssh/authorized_keys.template ]; then
+    cat /etc/ssh/authorized_keys.template >> /home/borg/.ssh/authorized_keys
+fi
+
+# Ensure correct permissions and ownership (after the UID adjustment)
+chown borg:borg /home/borg/.ssh/authorized_keys
+chmod 600 /home/borg/.ssh/authorized_keys
 
 # (Il chown inutilmente lento su /opt/borg-env è stato opportunamente rimosso)
 
