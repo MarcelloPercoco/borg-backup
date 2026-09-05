@@ -21,7 +21,7 @@ jobs: # job name
     runs-on: ubuntu-latest  # runner name : (ubuntu latest version)    
     steps:
       - name: Check out my repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Extract versions from Dockerfile
         run: |
           grep -E '^ARG [A-Z_]+=' Dockerfile | while read -r line; do
@@ -98,7 +98,7 @@ jobs: # job name
     needs: build-deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
         with:
